@@ -5,5 +5,4 @@
     - firewall
     - sshkeys
     - private_network
-    - docker
     - dnsmasq

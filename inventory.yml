@@ -4,6 +4,7 @@ all:
     ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=.ssh_known_hosts'
     consul_server_ip: 10.99.0.193
     private_network_cidr: 10.99.0.0/16
+    nomad_network_interface: ens4
   hosts:
     vm1:
       ansible_host: 51.79.143.80
