@@ -1,0 +1,8 @@
+- name: Configure private network interface
+  template:
+    src: interface.yml.j2
+    dest: /etc/netplan/99-private-network.yaml
+  register: network_config
+
+- command: netplan --debug apply
+  when: network_config.changed

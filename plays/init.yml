@@ -1,0 +1,9 @@
+- name: Setup world
+  hosts: all
+  become: yes
+  roles:
+    - firewall
+    - sshkeys
+    - private_network
+    - docker
+    - dnsmasq

@@ -1,0 +1,31 @@
+- name: Reject everything and enable UFW
+  ufw:
+    state: enabled
+    policy: reject
+    log: yes
+
+- name: Allow SSH
+  ufw:
+    rule: limit
+    port: ssh
+    proto: tcp
+
+- name: Allow OpenVPN
+  ufw:
+    rule: allow
+    port: '1194'
+    proto: udp
+  when: openvpn_server
+
+- name: Allow http and https
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+  with_items:
+    - '80'
+    - '443'
+
+- name: Allow everything on private network
+  ufw:
+    rule: allow
+    src: "{{ private_network_cidr }}"

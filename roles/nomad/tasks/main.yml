@@ -1,0 +1,53 @@
+- name: Install unzip
+  apt:
+    name: unzip
+    state: present
+
+- name: Create nomad user
+  user:
+    name: nomad
+    shell: /usr/bin/false
+    create_home: yes
+    home: /opt/nomad
+
+- name: Check if nomad binary already exists
+  stat:
+    path: /opt/nomad/nomad
+  register: nomad_binary
+
+- name: Download nomad binary
+  unarchive:
+    src: https://releases.hashicorp.com/nomad/0.11.3/nomad_0.11.3_linux_amd64.zip
+    dest: /opt/nomad/
+    remote_src: yes
+    owner: nomad
+  when: not nomad_binary.stat.exists
+
+- name: Create nomad config directory
+  file:
+    path: /etc/nomad
+    state: directory
+
+- name: Create nomad config
+  template:
+    src: nomad.hcl.j2
+    dest: /etc/nomad/nomad.hcl
+
+- name: Create nomad data directory
+  file:
+    path: /var/lib/nomad
+    owner: nomad
+    group: nomad
+    state: directory
+
+- name: Create nomad systemd service
+  copy:
+    src: nomad.service
+    dest: /etc/systemd/system/nomad.service
+
+- name: Enable and start nomad service
+  systemd:
+    name: nomad.service
+    daemon_reload: yes
+    enabled: yes
+    state: restarted

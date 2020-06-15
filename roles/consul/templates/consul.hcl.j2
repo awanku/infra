@@ -1,0 +1,16 @@
+datacenter = "dc1"
+data_dir = "/var/lib/consul"
+ui = true
+
+bind_addr = "0.0.0.0"
+client_addr = "0.0.0.0"
+advertise_addr = "{{ private_network_ip }}"
+
+{% if consul_server %}
+server = true
+bootstrap = true
+bootstrap_expect = 1
+{% else %}
+retry_join = ["{{ consul_server_ip }}"]
+retry_interval = "10s"
+{% endif %}
