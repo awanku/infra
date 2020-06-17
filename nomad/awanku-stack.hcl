@@ -1,8 +1,8 @@
 job "awanku" {
     datacenters = ["dc1"]
     constraint {
-        attribute = "${meta.for_systems}"
-        value     = true
+        attribute = "${attr.unique.hostname}"
+        value = "s1-2-sgp1-1"
     }
     group "docker-registry" {
         task "docker-registry" {

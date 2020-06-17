@@ -21,10 +21,4 @@ server {
 client {
   enabled = true
   network_interface = "{{ nomad_network_interface }}"
-
-{% if nomad_server %}
-  meta {
-    "for_systems" = true
-  }
-{% endif %}
 }
