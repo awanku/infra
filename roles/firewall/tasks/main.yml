@@ -25,7 +25,15 @@
     - '80'
     - '443'
 
-- name: Allow everything on private network
+- name: Allow everything in private network
   ufw:
     rule: allow
     src: "{{ private_network_cidr }}"
+    dest: "{{ private_network_cidr }}"
+
+- name: Allow routing into private network
+  ufw:
+    route: yes
+    rule: allow
+    src: 10.8.0.0/24
+    dest: 10.99.0.0/16

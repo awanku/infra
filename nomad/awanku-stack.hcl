@@ -1,16 +1,20 @@
 job "awanku" {
     datacenters = ["dc1"]
-    group "echo" {
-        count = 5
-        task "echo" {
+    constraint {
+        attribute = "${meta.for_systems}"
+        value     = true
+    }
+    group "docker-registry" {
+        task "docker-registry" {
             driver = "docker"
             config {
-                image = "jmalloc/echo-server"
+                image = "registry:2"
                 port_map {
-                    http = 8080
+                    http = 5000
                 }
             }
             service {
+                name = "docker-registry"
                 port = "http"
                 check {
                     type = "http"
