@@ -14,3 +14,7 @@ bootstrap_expect = 1
 retry_join = ["{{ consul_server_ip }}"]
 retry_interval = "10s"
 {% endif %}
+
+connect {
+  enabled = true
+}

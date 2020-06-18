@@ -1,4 +1,4 @@
-job "awanku" {
+job "awanku-infra" {
     datacenters = ["dc1"]
     constraint {
         attribute = "${attr.unique.hostname}"
@@ -22,11 +22,56 @@ job "awanku" {
                     port = "http"
                     interval = "10s"
                     timeout = "1s"
+
+                    check_restart {
+                        limit = 3
+                        grace = "60s"
+                    }
                 }
             }
             resources {
                 network {
                     port "http" {}
+                }
+            }
+        }
+    }
+    group "postgresql" {
+        task "postgresql" {
+            driver = "docker"
+            config {
+                image = "postgres:12"
+                port_map {
+                    pg = 5432
+                }
+                volumes = [
+                    "/awanku/maindb/pgdata:/var/lib/postgresql/data"
+                ]
+            }
+            service {
+                name = "awanku-db-main"
+                port = "pg"
+
+                check {
+                    type     = "tcp"
+                    port     = "pg"
+                    interval = "10s"
+                    timeout  = "1s"
+
+                    check_restart {
+                        limit = 3
+                        grace = "30s"
+                    }
+                }
+            }
+            env {
+                POSTGRES_USER = "awanku"
+                POSTGRES_PASSWORD = "rahasia"
+                POSTGRES_DB = "awanku"
+            }
+            resources {
+                network {
+                    port "pg" {}
                 }
             }
         }
