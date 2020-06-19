@@ -12,6 +12,9 @@ job "awanku-infra" {
                 port_map {
                     http = 5000
                 }
+                volumes = [
+                    "/awanku/registry/storage:/var/lib/registry"
+                ]
             }
             service {
                 name = "docker-registry"
@@ -22,56 +25,18 @@ job "awanku-infra" {
                     port = "http"
                     interval = "10s"
                     timeout = "1s"
-
-                    check_restart {
-                        limit = 3
-                        grace = "60s"
-                    }
                 }
+                tags = [
+                    "traefik.enable=true",
+                    "traefik.http.routers.docker-registry.rule=Host(`docker.awanku.xyz`)",
+                    "traefik.http.routers.docker-registry.entrypoints=http,https",
+                    "traefik.http.routers.docker-registry.tls=true",
+                    "traefik.http.routers.docker-registry.tls.certresolver=gratisan"
+                ]
             }
             resources {
                 network {
                     port "http" {}
-                }
-            }
-        }
-    }
-    group "postgresql" {
-        task "postgresql" {
-            driver = "docker"
-            config {
-                image = "postgres:12"
-                port_map {
-                    pg = 5432
-                }
-                volumes = [
-                    "/awanku/maindb/pgdata:/var/lib/postgresql/data"
-                ]
-            }
-            service {
-                name = "awanku-db-main"
-                port = "pg"
-
-                check {
-                    type     = "tcp"
-                    port     = "pg"
-                    interval = "10s"
-                    timeout  = "1s"
-
-                    check_restart {
-                        limit = 3
-                        grace = "30s"
-                    }
-                }
-            }
-            env {
-                POSTGRES_USER = "awanku"
-                POSTGRES_PASSWORD = "rahasia"
-                POSTGRES_DB = "awanku"
-            }
-            resources {
-                network {
-                    port "pg" {}
                 }
             }
         }

@@ -31,9 +31,8 @@
     src: "{{ private_network_cidr }}"
     dest: "{{ private_network_cidr }}"
 
-- name: Allow routing into private network
+- name: Allow docker network to some ports
   ufw:
-    route: yes
     rule: allow
-    src: 10.8.0.0/24
-    dest: 10.99.0.0/16
+    src: 172.17.0.1/16
+    dest: "{{ private_network_ip }}"

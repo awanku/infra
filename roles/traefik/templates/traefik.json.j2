@@ -1,0 +1,37 @@
+{
+    "services": [
+        {
+            "name": "traefik-http",
+            "port": 80,
+            "checks": [
+                {
+                    "tcp": "{{ ansible_host }}:80",
+                    "interval": "5s",
+                    "timeout": "1s"
+                }
+            ]
+        },
+        {
+            "name": "traefik-https",
+            "port": 443,
+            "checks": [
+                {
+                    "tcp": "{{ ansible_host }}:443",
+                    "interval": "5s",
+                    "timeout": "1s"
+                }
+            ]
+        },
+        {
+            "name": "traefik-dashboard",
+            "port": 8080,
+            "checks": [
+                {
+                    "tcp": "{{ ansible_host }}:8080",
+                    "interval": "5s",
+                    "timeout": "1s"
+                }
+            ]
+        }
+    ]
+}

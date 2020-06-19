@@ -1,0 +1,70 @@
+- name: Create user
+  user:
+    name: traefik
+    shell: /usr/bin/false
+    create_home: yes
+    home: /var/lib/traefik
+
+- name: Create binary directory
+  file:
+    path: /opt/traefik
+    state: directory
+
+- name: Check if binary already exists
+  stat:
+    path: /opt/traefik/traefik
+  register: traefik_binary
+
+- name: Download binary
+  unarchive:
+    src: https://github.com/containous/traefik/releases/download/v2.2.1/traefik_v2.2.1_linux_amd64.tar.gz
+    dest: /opt/traefik/
+    remote_src: yes
+  when: not traefik_binary.stat.exists
+
+- name: Link binary
+  file:
+    src: /opt/traefik/traefik
+    dest: /usr/bin/traefik
+    owner: root
+    state: link
+
+- name: Create config directory
+  file:
+    path: /etc/traefik
+    state: directory
+
+- name: Create config
+  template:
+    src: traefik.yml.j2
+    dest: /etc/traefik/traefik.yml
+
+- name: Create acme file
+  file:
+    path: /var/lib/traefik/acme.json
+    state: touch
+    owner: traefik
+    group: traefik
+    mode: '0600'
+
+- name: Create systemd service
+  copy:
+    src: traefik.service
+    dest: /etc/systemd/system/traefik.service
+
+- name: Enable and start service
+  systemd:
+    name: traefik.service
+    daemon_reload: yes
+    enabled: yes
+    state: restarted
+
+- name: Install consul service
+  template:
+    src: traefik.json.j2
+    dest: /etc/consul/service_traefik.json
+
+- name: Restart consul
+  systemd:
+    name: consul.service
+    state: restarted

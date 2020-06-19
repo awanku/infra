@@ -20,8 +20,14 @@
     src: https://releases.hashicorp.com/consul/1.7.4/consul_1.7.4_linux_amd64.zip
     dest: /opt/consul/
     remote_src: yes
-    owner: consul
   when: not consul_binary.stat.exists
+
+- name: Link consul binary
+  file:
+    src: /opt/consul/consul
+    dest: /usr/bin/consul
+    owner: root
+    state: link
 
 - name: Create consul config directory
   file:

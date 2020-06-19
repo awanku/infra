@@ -1,0 +1,5 @@
+- name: Setup ingress
+  hosts: all
+  become: yes
+  roles:
+    - traefik

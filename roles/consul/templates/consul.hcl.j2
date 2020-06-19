@@ -6,6 +6,12 @@ bind_addr = "0.0.0.0"
 client_addr = "0.0.0.0"
 advertise_addr = "{{ private_network_ip }}"
 
+ports {
+    dns = 8600
+    http = 8500
+    grpc = 8502
+}
+
 {% if consul_server %}
 server = true
 bootstrap = true
