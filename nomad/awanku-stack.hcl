@@ -29,7 +29,7 @@ job "awanku-infra" {
                 tags = [
                     "traefik.enable=true",
                     "traefik.http.routers.docker-registry.rule=Host(`docker.awanku.xyz`)",
-                    "traefik.http.routers.docker-registry.entrypoints=http,https",
+                    "traefik.http.routers.docker-registry.entrypoints=https",
                     "traefik.http.routers.docker-registry.tls=true",
                     "traefik.http.routers.docker-registry.tls.certresolver=gratisan",
                     "traefik.http.routers.docker-registry.middlewares=docker-registry-basic-auth",
