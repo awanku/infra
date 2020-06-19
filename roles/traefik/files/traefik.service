@@ -12,16 +12,11 @@ Group=traefik
 AmbientCapabilities=CAP_NET_BIND_SERVICE
 WorkingDirectory=/var/lib/traefik
 ExecStart=/usr/bin/traefik --configFile=/etc/traefik/traefik.yml
+ReadWritePaths=/var/lib/traefik/acme.json
 KillMode=process
 Restart=on-failure
 WatchdogSec=1s
 LimitNOFILE=65536
-ProtectSystem=strict
-PrivateTmp=true
-ProtectHome=true
-PrivateDevices=true
-ProtectKernelTunables=true
-ProtectControlGroups=true
 
 [Install]
 WantedBy=multi-user.target
