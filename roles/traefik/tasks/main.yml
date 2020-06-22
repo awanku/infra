@@ -68,3 +68,19 @@
   systemd:
     name: consul.service
     state: restarted
+
+- name: Install pip
+  apt:
+    name: python3-pip
+    state: present
+
+- name: Install python packages
+  pip:
+    name: [python-consul, requests]
+
+- name: Set config in consul
+  consul_kv:
+    key: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+  with_items: "{{ consul_configs }}"

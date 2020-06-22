@@ -1,0 +1,9 @@
+consul_configs:
+  - key: traefik/http/middlewares/httpToHttps/redirectscheme/permanent
+    value: 'true'
+  - key: traefik/http/middlewares/httpToHttps/redirectscheme/scheme
+    value: https
+  - key: traefik/http/middlewares/awankuInfraBasicAuth/basicauth/users
+    value: awanku:$apr1$jd5pi2l4$B7PpKD4vEPo6izga3Z3GB1
+  - key: traefik/http/middlewares/awankuInfraBasicAuth/basicauth/realm
+    value: Awanku Protected Resource

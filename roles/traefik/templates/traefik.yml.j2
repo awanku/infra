@@ -24,16 +24,16 @@ entryPoints:
     address: "{{ ansible_host }}:80"
     transport:
       respondingTimeouts:
-        readTimeout: 30
-        writeTimeout: 30
-        idleTimeout: 30
+        readTimeout: 600
+        writeTimeout: 600
+        idleTimeout: 600
   https:
     address: "{{ ansible_host }}:443"
     transport:
       respondingTimeouts:
-        readTimeout: 30
-        writeTimeout: 30
-        idleTimeout: 30
+        readTimeout: 600
+        writeTimeout: 600
+        idleTimeout: 600
 
 providers:
   consulCatalog:
@@ -47,8 +47,6 @@ certificatesResolvers:
       storage: /var/lib/traefik/acme.json
       httpChallenge:
         entryPoint: http
-
-accessLog: {}
 
 log:
   level: WARN

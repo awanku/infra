@@ -1,0 +1,18 @@
+- name: Create partition
+  parted:
+    device: "{{ device }}"
+    number: "{{ device_id }}"
+    state: present
+
+- name: Format partition
+  filesystem:
+    fstype: xfs
+    dev: "{{ device }}{{ device_id }}"
+
+- name: Mount disk
+  mount:
+    path: "{{ mount_path }}"
+    src: "{{ device }}{{ device_id }}"
+    fstype: xfs
+    state: mounted
+    boot: yes

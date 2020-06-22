@@ -2,7 +2,7 @@ listen-address={{ private_network_ip }},127.0.0.54
 port=53
 domain-needed
 bogus-priv
-strict-order
 server=/consul/127.0.0.1#8600
-local-service
-cache-size=65536
+server=8.8.8.8
+server=1.1.1.1
+cache-size=100000
