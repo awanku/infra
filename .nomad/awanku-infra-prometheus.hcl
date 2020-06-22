@@ -1,9 +1,5 @@
 job "awanku-infra-prometheus" {
     datacenters = ["dc1"]
-    constraint {
-        attribute = "${attr.unique.hostname}"
-        value = "s1-2-sgp1-1"
-    }
     group "prometheus" {
         ephemeral_disk {
             migrate = true
@@ -28,6 +24,13 @@ job "awanku-infra-prometheus" {
 global:
   scrape_interval: 15s
   evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'consul'
+    consul_sd_configs:
+      - server: '{{ env "NOMAD_IP_http" }}:8500'
+        services:
+          - telegraf-metrics
 EOH
                 destination = "local/prometheus.yml"
             }
