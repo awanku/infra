@@ -31,7 +31,6 @@ job "awanku-infra-docker-registry" {
                     "traefik.http.routers.awanku-infra-docker-registry.rule=Host(`docker.awanku.id`)",
                     "traefik.http.routers.awanku-infra-docker-registry.entrypoints=https",
                     "traefik.http.routers.awanku-infra-docker-registry.tls=true",
-                    "traefik.http.routers.awanku-infra-docker-registry.tls.certresolver=gratisan",
                     "traefik.http.routers.awanku-infra-docker-registry.tls.options=default",
                     "traefik.http.routers.awanku-infra-docker-registry.middlewares=awankuInfraBasicAuth@consul",
                 ]

@@ -7,10 +7,22 @@ api:
   dashboard: true
 
 tls:
+  certificates:
+    - certFile: /var/lib/traefik/awanku_id.crt
+      keyFile: /var/lib/traefik/awanku_id.key
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /var/lib/traefik/awanku_id.crt
+        keyFile: /var/lib/traefik/awanku_id.key
   options:
     default:
       preferServerCipherSuites: true
       minVersion: VersionTLS12
+      sniStrict: true
+      curvePreferences:
+        - CurveP521
+        - CurveP384
       cipherSuites:
         - TLS_AES_128_GCM_SHA256
         - TLS_AES_256_GCM_SHA384
@@ -39,14 +51,8 @@ providers:
   consulCatalog:
     exposedByDefault: false
   consul: {}
-
-certificatesResolvers:
-  gratisan:
-    acme:
-      email: arba.sasmoyo+awanku@gmail.com
-      storage: /var/lib/traefik/acme.json
-      httpChallenge:
-        entryPoint: http
+  file:
+    filename: /etc/traefik/traefik.yml
 
 log:
   level: WARN
