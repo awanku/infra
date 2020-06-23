@@ -22,6 +22,16 @@ job "awanku-infra-telegraf" {
 
 [[inputs.cpu]]
 
+[[inputs.disk]]
+  ignore_fs = ["tmpfs", "devtmpfs", "devfs", "iso9660", "overlay", "aufs", "squashfs"]
+
+[[inputs.diskio]]
+
+[[inputs.netstat]]
+
+[[inputs.net]]
+  interfaces = ["ens*", "tun*"]
+
 [[outputs.prometheus_client]]
   listen = "{{ env "NOMAD_IP_metrics" }}:{{ env "NOMAD_PORT_metrics" }}"
   metric_version = 2
