@@ -1,6 +1,8 @@
 Infra
 =====
 
+![Infra Spec](https://github.com/awanku/infra/workflows/Infra%20Spec/badge.svg?event=schedule)
+
 # Missing
 
 ## Setting up OpenVPN server
