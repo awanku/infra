@@ -43,3 +43,15 @@ resource "google_dns_record_set" "cname_awanku_id" {
     google_dns_record_set.awanku_id.name,
   ]
 }
+
+resource "google_dns_record_set" "internal_awanku_id" {
+  name = "*.internal.${data.google_dns_managed_zone.awanku_id.dns_name}"
+  type = "A"
+  ttl  = 300
+
+  managed_zone = data.google_dns_managed_zone.awanku_id.name
+  rrdatas = [
+    "10.99.0.4",
+    "10.99.0.193",
+  ]
+}

@@ -46,6 +46,13 @@ entryPoints:
         readTimeout: 600
         writeTimeout: 600
         idleTimeout: 600
+  internal:
+    address: "{{ private_network_ip }}:443"
+    transport:
+      respondingTimeouts:
+        readTimeout: 600
+        writeTimeout: 600
+        idleTimeout: 600
 
 providers:
   consulCatalog:

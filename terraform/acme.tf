@@ -14,7 +14,8 @@ resource "acme_registration" "awanku_id" {
 resource "acme_certificate" "awanku_id" {
   account_key_pem           = acme_registration.awanku_id.account_key_pem
   common_name               = "awanku.id"
-  subject_alternative_names = ["*.awanku.id", "*.apps.awanku.id"]
+  subject_alternative_names = ["*.awanku.id", "*.apps.awanku.id", "*.internal.awanku.id"]
+  recursive_nameservers     = ["1.1.1.1", "8.8.8.8"]
 
   dns_challenge {
     provider = "gcloud"
