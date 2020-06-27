@@ -10,7 +10,7 @@ topology subnet
 server 10.8.0.0 255.255.255.0
 ifconfig-pool-persist ipp.txt
 push "dhcp-option DNS {{ private_network_ip }}"
-push "route {{ private_network_ip }} 255.255.0.0"
+push "route 10.99.0.0 255.255.0.0"
 dh none
 ecdh-curve prime256v1
 tls-crypt tls-crypt.key 0

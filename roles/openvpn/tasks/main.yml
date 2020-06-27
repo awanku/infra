@@ -22,3 +22,11 @@
     rule: allow
     src: 10.8.0.0/24
     dest: "{{ private_network_cidr }}"
+
+- name: Allow OpenVPN to access private network
+  iptables:
+    table: nat
+    chain: POSTROUTING
+    source: 10.8.0.0/24
+    out_interface: ens4
+    jump: MASQUERADE

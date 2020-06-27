@@ -1,14 +1,10 @@
 locals {
-    ingress_ips = ["51.79.143.80", "51.79.142.232"]
+    ingress_ips = ["51.79.142.59", "51.79.140.121", "51.79.141.163"]
     cname_domains = ["api", "console", "docker", "*.apps"]
 }
 
 data "google_dns_managed_zone" "awanku_id" {
   name = "awanku-id"
-}
-
-data "google_dns_managed_zone" "awanku_xyz" {
-  name = "awanku-xyz"
 }
 
 resource "google_dns_record_set" "awanku_id" {
@@ -51,7 +47,12 @@ resource "google_dns_record_set" "internal_awanku_id" {
 
   managed_zone = data.google_dns_managed_zone.awanku_id.name
   rrdatas = [
-    "10.99.0.4",
-    "10.99.0.193",
+    "10.99.1.85",
+    "10.99.2.245",
+    "10.99.0.177",
   ]
+}
+
+data "google_dns_managed_zone" "awanku_xyz" {
+  name = "awanku-xyz"
 }

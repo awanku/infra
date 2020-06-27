@@ -14,6 +14,12 @@ all:
       ansible_host: 51.79.141.163
       private_network_ip: 10.99.0.177
 
+ingress:
+  hosts:
+    vm1: {}
+    vm2: {}
+    vm3: {}
+
 consul_servers:
   vars:
     consul_server: yes
