@@ -3,8 +3,8 @@ job "awanku-infra-prometheus" {
     group "prometheus" {
         ephemeral_disk {
             migrate = true
-            size    = "300"
             sticky  = true
+            size    = "500"
         }
         task "prometheus" {
             driver = "exec"
@@ -16,7 +16,7 @@ job "awanku-infra-prometheus" {
                 args = [
                     "--config.file=${NOMAD_TASK_DIR}/prometheus.yml",
                     "--web.listen-address=${NOMAD_IP_http}:${NOMAD_PORT_http}",
-                    "--storage.tsdb.path=${NOMAD_ALLOC_DIR}/data",
+                    "--storage.tsdb.path=${NOMAD_ALLOC_DIR}/data/prometheus",
                 ]
             }
             template {

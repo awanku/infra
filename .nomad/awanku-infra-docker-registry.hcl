@@ -1,10 +1,11 @@
 job "awanku-infra-docker-registry" {
     datacenters = ["dc1"]
-    constraint {
-        attribute = "${attr.unique.hostname}"
-        value = "s1-2-sgp1-1"
-    }
     group "docker-registry" {
+        ephemeral_disk {
+            migrate = true
+            sticky  = true
+            size    = "1000"
+        }
         task "docker-registry" {
             driver = "docker"
             config {
@@ -12,9 +13,9 @@ job "awanku-infra-docker-registry" {
                 port_map {
                     http = 5000
                 }
-                volumes = [
-                    "/awanku-data/docker-registry:/var/lib/registry"
-                ]
+            }
+            env {
+                REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY = "/alloc/data/registry"
             }
             service {
                 name = "docker-registry"
