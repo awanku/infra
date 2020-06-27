@@ -14,7 +14,12 @@ consul {
 {% if nomad_server %}
 server {
   enabled = true
-  bootstrap_expect = 1
+  bootstrap_expect = 3
+
+  server_join {
+    retry_join = ["{{ groups['nomad_servers'] | map('extract', hostvars, ['private_network_ip']) | list | difference([hostvars[inventory_hostname]['private_network_ip']]) | join('","') }}"]
+    retry_interval = "10s"
+  }
 }
 {% endif %}
 

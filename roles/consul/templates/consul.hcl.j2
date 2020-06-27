@@ -14,12 +14,11 @@ ports {
 
 {% if consul_server %}
 server = true
-bootstrap = true
-bootstrap_expect = 1
-{% else %}
-retry_join = ["{{ consul_server_ip }}"]
-retry_interval = "10s"
+bootstrap_expect = {{ groups['consul_servers'] | length }}
 {% endif %}
+
+retry_join = ["{{ groups['consul_servers'] | map('extract', hostvars, ['private_network_ip']) | list | difference([hostvars[inventory_hostname]['private_network_ip']]) | join('","') }}"]
+retry_interval = "10s"
 
 connect {
   enabled = true

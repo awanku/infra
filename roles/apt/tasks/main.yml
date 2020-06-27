@@ -1,0 +1,9 @@
+- name: Updata cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 604800
+
+- name: Install common packages
+  apt:
+    name: [unzip, nload, tree]
+    state: present

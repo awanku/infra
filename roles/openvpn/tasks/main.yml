@@ -1,0 +1,24 @@
+- name: OpenVPN config
+  template:
+    src: server.conf.j2
+    dest: /etc/openvpn/server.conf
+
+- name: Enable and start OpenVPN
+  service:
+    name: "{{ item }}"
+    enabled: yes
+    state: restarted
+  with_items:
+    - openvpn@server.service
+
+- name: Allow incoming OpenVPN connections
+  ufw:
+    rule: allow
+    port: '1194'
+    proto: udp
+
+- name: Allow VPN to private network
+  ufw:
+    rule: allow
+    src: 10.8.0.0/24
+    dest: "{{ private_network_cidr }}"

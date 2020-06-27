@@ -2,14 +2,8 @@
   hosts: all
   become: yes
   roles:
+    - apt
     - firewall
     - sshkeys
     - private_network
     - dnsmasq
-
-- name: Systems data
-  hosts:
-    - vm1
-  become: yes
-  roles:
-    - awanku_data

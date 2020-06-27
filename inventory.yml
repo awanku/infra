@@ -2,16 +2,37 @@ all:
   vars:
     ansible_user: ubuntu
     ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=.ssh_known_hosts'
-    consul_server_ip: 10.99.0.193
     private_network_cidr: 10.99.0.0/16
-    nomad_network_interface: ens4
   hosts:
     vm1:
-      ansible_host: 51.79.143.80
-      private_network_ip: 10.99.0.193
-      consul_server: yes
-      nomad_server: yes
-      openvpn_server: yes
+      ansible_host: 51.79.142.59
+      private_network_ip: 10.99.1.85
     vm2:
-      ansible_host: 51.79.142.232
-      private_network_ip: 10.99.0.4
+      ansible_host: 51.79.140.121
+      private_network_ip: 10.99.2.245
+    vm3:
+      ansible_host: 51.79.141.163
+      private_network_ip: 10.99.0.177
+
+consul_servers:
+  vars:
+    consul_server: yes
+  hosts:
+    vm1: {}
+    vm2: {}
+    vm3: {}
+
+nomad_servers:
+  vars:
+    nomad_server: yes
+    nomad_network_interface: ens4
+  hosts:
+    vm1: {}
+    vm2: {}
+    vm3: {}
+
+openvpn_servers:
+  vars:
+    openvpn_server: yes
+  hosts:
+    vm1: {}

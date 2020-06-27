@@ -1,7 +1,8 @@
-listen-address={{ private_network_ip }},127.0.0.54
+listen-address={{ private_network_ip }}
 port=53
 domain-needed
 bogus-priv
+no-resolv
 server=/consul/127.0.0.1#8600
 server=8.8.8.8
 server=1.1.1.1

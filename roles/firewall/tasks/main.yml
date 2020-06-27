@@ -1,21 +1,28 @@
-- name: Reject everything and enable UFW
+- name: Enable UFW and logging
   ufw:
     state: enabled
+    logging: low
+
+- name: Reject incoming by default
+  ufw:
+    direction: incoming
     policy: reject
-    log: yes
+
+- name: Allow outgoing by default
+  ufw:
+    direction: outgoing
+    policy: allow
+
+- name: Allow routed by default
+  ufw:
+    direction: routed
+    policy: allow
 
 - name: Allow SSH
   ufw:
     rule: limit
     port: ssh
     proto: tcp
-
-- name: Allow OpenVPN
-  ufw:
-    rule: allow
-    port: '1194'
-    proto: udp
-  when: openvpn_server
 
 - name: Allow http and https
   ufw:
@@ -31,8 +38,11 @@
     src: "{{ private_network_cidr }}"
     dest: "{{ private_network_cidr }}"
 
-- name: Allow docker network to some ports
+- name: Allow docker network to some ports in private interface
   ufw:
     rule: allow
     src: 172.17.0.1/16
     dest: "{{ private_network_ip }}"
+    port: "{{ item }}"
+  with_items:
+    - '53'
