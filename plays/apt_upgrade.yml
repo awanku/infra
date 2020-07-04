@@ -7,5 +7,9 @@
       apt:
         update_cache: yes
         upgrade: dist
+    - name: Clean packages
+      apt:
+        autoclean: yes
+        autoremove: yes
     - name: Reboot machine
       reboot: {}
