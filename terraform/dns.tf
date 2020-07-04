@@ -56,3 +56,25 @@ resource "google_dns_record_set" "internal_awanku_id" {
 data "google_dns_managed_zone" "awanku_xyz" {
   name = "awanku-xyz"
 }
+
+resource "google_dns_record_set" "awanku_xyz" {
+  name = data.google_dns_managed_zone.awanku_xyz.dns_name
+  type = "A"
+  ttl  = 300
+
+  managed_zone = data.google_dns_managed_zone.awanku_xyz.name
+  rrdatas = local.ingress_ips
+}
+
+resource "google_dns_record_set" "cname_staging_awanku_xyz" {
+  for_each = toset(local.cname_domains)
+
+  name = "${each.value}.staging.${data.google_dns_managed_zone.awanku_xyz.dns_name}"
+  type = "CNAME"
+  ttl  = 300
+
+  managed_zone = data.google_dns_managed_zone.awanku_xyz.name
+  rrdatas = [
+    google_dns_record_set.awanku_xyz.name,
+  ]
+}

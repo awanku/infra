@@ -49,6 +49,8 @@
   with_items:
     - { src: ../../../terraform/awanku_id.crt, dest: /var/lib/traefik/awanku_id.crt }
     - { src: ../../../terraform/awanku_id.key, dest: /var/lib/traefik/awanku_id.key }
+    - { src: ../../../terraform/awanku_xyz.crt, dest: /var/lib/traefik/awanku_xyz.crt }
+    - { src: ../../../terraform/awanku_xyz.key, dest: /var/lib/traefik/awanku_xyz.key }
 
 - name: Create systemd service
   copy:

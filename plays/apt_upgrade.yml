@@ -1,0 +1,11 @@
+- name: Machine upgrade
+  become: yes
+  hosts: all
+  serial: 1
+  tasks:
+    - name: Run apt upgrade
+      apt:
+        update_cache: yes
+        upgrade: dist
+    - name: Reboot machine
+      reboot: {}

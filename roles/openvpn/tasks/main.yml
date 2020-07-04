@@ -1,3 +1,7 @@
+- name: Install iptables-persistent
+  apt:
+    name: iptables-persistent
+
 - name: OpenVPN config
   template:
     src: server.conf.j2
@@ -30,3 +34,9 @@
     source: 10.8.0.0/24
     out_interface: ens4
     jump: MASQUERADE
+  register: iptables
+
+- name: Save iptables changes
+  command: |
+    /sbin/iptables-save > /etc/iptables/rules.v4
+  when: iptables.changed
