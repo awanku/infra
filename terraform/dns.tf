@@ -1,6 +1,8 @@
 locals {
     ingress_ips = ["51.79.142.59", "51.79.140.121", "51.79.141.163"]
     cname_domains = ["api", "console", "docker", "*.apps"]
+    staging_domain_cnames = ["api", "docker", "*.apps"]
+    staging_domain_local = ["staging", "console.staging"]
 }
 
 data "google_dns_managed_zone" "awanku_id" {
@@ -66,8 +68,19 @@ resource "google_dns_record_set" "awanku_xyz" {
   rrdatas = local.ingress_ips
 }
 
-resource "google_dns_record_set" "cname_staging_awanku_xyz" {
-  for_each = toset(local.cname_domains)
+resource "google_dns_record_set" "staging_local_awanku_xyz" {
+  for_each = toset(local.staging_domain_local)
+
+  name = "${each.value}.${data.google_dns_managed_zone.awanku_xyz.dns_name}"
+  type = "A"
+  ttl  = 300
+
+  managed_zone = data.google_dns_managed_zone.awanku_xyz.name
+  rrdatas = ["127.0.0.1"]
+}
+
+resource "google_dns_record_set" "staging_cname_awanku_xyz" {
+  for_each = toset(local.staging_domain_cnames)
 
   name = "${each.value}.staging.${data.google_dns_managed_zone.awanku_xyz.dns_name}"
   type = "CNAME"
