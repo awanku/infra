@@ -56,6 +56,40 @@ entryPoints:
         writeTimeout: 600
         idleTimeout: 600
 
+http:
+  routers:
+    consul:
+      entryPoints:
+      - internal
+      service: consul
+      rule: Host(`consul.internal.awanku.id`)
+      tls: {}
+    nomad:
+      entryPoints:
+      - internal
+      service: nomad
+      rule: Host(`nomad.internal.awanku.id`)
+      tls: {}
+    traefik:
+      entryPoints:
+      - internal
+      service: traefik
+      rule: Host(`traefik.internal.awanku.id`)
+      tls: {}
+  services:
+    consul:
+      loadBalancer:
+        servers:
+        - url: http://{{ private_network_ip }}:8500
+    nomad:
+      loadBalancer:
+        servers:
+        - url: http://{{ private_network_ip }}:4646
+    traefik:
+      loadBalancer:
+        servers:
+        - url: http://{{ private_network_ip }}:8080
+
 providers:
   consulCatalog:
     exposedByDefault: false
@@ -64,4 +98,7 @@ providers:
     filename: /etc/traefik/traefik.yml
 
 log:
-  level: WARN
+  level: DEBUG
+
+accessLog:
+  format: json
