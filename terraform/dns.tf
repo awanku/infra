@@ -86,3 +86,23 @@ resource "google_dns_record_set" "staging_internal_awanku_xyz" {
   managed_zone = data.google_dns_managed_zone.awanku_xyz.name
   rrdatas = local.internal_ingress_ips
 }
+
+resource "google_dns_record_set" "dev_awanku_xyz" {
+  name = "dev.${data.google_dns_managed_zone.awanku_xyz.dns_name}"
+  type = "A"
+  ttl  = 300
+
+  managed_zone = data.google_dns_managed_zone.awanku_xyz.name
+  rrdatas = ["127.0.0.1"]
+}
+
+resource "google_dns_record_set" "dev_local_awanku_xyz" {
+  for_each = toset(local.cname_domains)
+
+  name = "${each.value}.dev.${data.google_dns_managed_zone.awanku_xyz.dns_name}"
+  type = "A"
+  ttl  = 300
+
+  managed_zone = data.google_dns_managed_zone.awanku_xyz.name
+  rrdatas = ["127.0.0.1"]
+}
