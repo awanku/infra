@@ -45,4 +45,20 @@
     dest: "{{ private_network_ip }}"
     port: "{{ item }}"
   with_items:
-    - '53'
+    - '53' # dns with consul domain, should only be used by internal apps, public apps must use public dns resolver
+
+- name: Allow TCP connections from docker network to nomad exposed ports
+  ufw:
+    rule: allow
+    src: 172.17.0.1/16
+    dest: "{{ private_network_ip }}"
+    port: 20000:32000
+    proto: tcp
+
+- name: Allow UDP connections from docker network to nomad exposed ports
+  ufw:
+    rule: allow
+    src: 172.17.0.1/16
+    dest: "{{ private_network_ip }}"
+    port: 20000:32000
+    proto: udp
