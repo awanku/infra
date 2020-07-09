@@ -5,21 +5,27 @@
     create_home: yes
     home: /opt/consul
 
-- name: Check if consul binary already exists
-  stat:
-    path: /opt/consul/consul
-  register: consul_binary
+- name: Create consul directory
+  file:
+    path: "/opt/consul/{{ consul_version }}"
+    state: directory
 
 - name: Download consul binary
+  get_url:
+    url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
+    dest: "/opt/consul/{{ consul_version }}/consul.zip"
+    checksum: "sha256:{{ consul_checksum }}"
+
+- name: Extract consul binary
   unarchive:
-    src: https://releases.hashicorp.com/consul/1.7.4/consul_1.7.4_linux_amd64.zip
-    dest: /opt/consul/
+    src: "/opt/consul/{{ consul_version }}/consul.zip"
+    dest: "/opt/consul/{{ consul_version }}"
+    creates: "/opt/consul/{{ consul_version }}/consul"
     remote_src: yes
-  when: not consul_binary.stat.exists
 
 - name: Link consul binary
   file:
-    src: /opt/consul/consul
+    src: "/opt/consul/{{ consul_version }}/consul"
     dest: /usr/bin/consul
     owner: root
     state: link
