@@ -30,6 +30,11 @@
     owner: root
     state: link
 
+- name: Delete old consul
+  shell: |
+    cd /opt/consul
+    ls | grep -v {{ consul_version }} | xargs rm -rfv
+
 - name: Create consul config directory
   file:
     path: /etc/consul

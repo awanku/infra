@@ -7,7 +7,7 @@ After=network-online.target
 [Service]
 WorkingDirectory=/var/lib/nomad
 ExecReload=/bin/kill -HUP $MAINPID
-ExecStart=/opt/nomad/nomad agent -config /etc/nomad
+ExecStart=/usr/bin/nomad agent -config /etc/nomad
 KillMode=process
 KillSignal=SIGINT
 LimitNOFILE=infinity

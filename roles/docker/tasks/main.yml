@@ -11,5 +11,5 @@
 
 - name: Install docker
   apt:
-    name: "docker-ce={{ docker_version }}"
+    name: docker-ce
     state: present
